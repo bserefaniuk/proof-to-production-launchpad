@@ -1,0 +1,17 @@
+graph LR
+  Client[Client]
+  Controller((HTTP Controller))
+  Service[ProjectService]
+  Domain[Project Aggregate]
+  Repo[(Project Repository)]
+  Cache[(Project Cache)]
+  Queue{{TaskSync Queue}}
+
+  Client --> Controller
+  Controller --> Service
+  Service --> Domain
+  Service --> Cache
+  Cache --> Service
+  Service --> Repo
+  Repo --> Domain
+  Service --> Queue

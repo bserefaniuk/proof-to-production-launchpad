@@ -5,9 +5,10 @@ This repository hosts the evolving PoC for the “Proof to Production: Shipping 
 ## Repository Structure
 
 ```
-backend/      # Nest.js service with DDD boundaries and in-memory persistence
-frontend/     # React + Vite client application
-docs/         # Architecture notes, release checklist, and decision logs
+launchpad/
+  backend/      # Nest.js service with DDD boundaries and in-memory persistence
+  frontend/     # React + Vite client application
+  docs/         # Architecture notes, release checklist, and decision logs
 ```
 
 Each article in the series will tag a release (e.g. `v0.1.0-poc-baseline`) so you can diff the changes and replay the upgrade path.
@@ -47,3 +48,17 @@ The upcoming installments will:
 - Provide checklist-driven quality gates so you can replicate the upgrade path.
 
 Track progress via the `docs/` folder and release notes linked from each article.
+
+## North Star Scorecard
+
+The readiness metrics referenced throughout the series live in `docs/observability/loki-dashboard.json` and `docs/ops/secrets-rotation.md`. Record your latest reliability, security, observability, and supportability scores here so stakeholders can track improvement over time.
+
+## Utility Scripts
+
+Run these from the repository root (`launchpad/`):
+
+- `npm run diagnose:core` – generate `tmp/diagnostics/core.json` with architecture, config, and data findings.
+- `npm run config:drift` – compare `.env.local` against `.env.example` to flag missing keys.
+- `npm run notify:contracts` – surface the latest API contract changes for consumers.
+- `npm run replay:events -- --file <path>` – replay JSONL event logs during recovery drills.
+- `npm run db:migrate` / `npm run db:plan` – placeholders wired once the Postgres adapter lands.

@@ -1,0 +1,31 @@
+# Data Classification Template
+
+# Classify each domain field with one of:
+# - PUBLIC: safe for disclosure
+# - OPERATIONAL: internal-only but low risk
+# - PII: personal information
+# - PCI: payment card data
+# - SECRET: credentials or keys
+
+projects:
+  id: OPERATIONAL
+  name: OPERATIONAL
+  description: OPERATIONAL
+  owner_email: PII
+
+checklists:
+  id: OPERATIONAL
+  project_id: OPERATIONAL
+  name: OPERATIONAL
+
+tasks:
+  id: OPERATIONAL
+  checklist_id: OPERATIONAL
+  title: OPERATIONAL
+  notes: PII
+  status: OPERATIONAL
+  due_date: OPERATIONAL
+
+secrets:
+  app_secret: SECRET
+  database_password: SECRET

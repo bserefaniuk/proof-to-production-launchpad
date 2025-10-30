@@ -1,0 +1,16 @@
+{
+  "name": "proof-to-production-launchpad",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "diagnose:core": "node scripts/diagnose-core.js",
+    "config:drift": "node scripts/config-drift.js",
+    "db:migrate": "node scripts/db-migrate.js",
+    "db:plan": "node scripts/db-plan.js",
+    "notify:contracts": "node scripts/notify-contracts.js",
+    "replay:events": "node scripts/replay-events.js"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2"
+  }
+}

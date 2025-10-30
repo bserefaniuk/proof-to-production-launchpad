@@ -1,0 +1,28 @@
+graph TD
+  subgraph Interfaces
+    Controllers[HTTP Controllers]
+  end
+  subgraph Application
+    Services[Application Services]
+    Support[Support Utilities: Retry, CircuitBreaker]
+  end
+  subgraph Domain
+    DomainEntities[Entities & Value Objects]
+    DomainPolicies[Domain Policies]
+  end
+  subgraph Infrastructure
+    Repos[Persistence Adapters]
+    Cache[Cache Layer]
+    Queues[Async Workers]
+    Config[Configuration Providers]
+  end
+
+  Controllers --> Services
+  Services --> DomainEntities
+  Services --> DomainPolicies
+  Services --> Support
+  Services --> Repos
+  Services --> Cache
+  Services --> Queues
+  Repos --> DomainEntities
+  Config --> Services

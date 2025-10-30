@@ -1,0 +1,37 @@
+{
+  "title": "LaunchPad Core Hardening Dashboard",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "p95 project.create latency",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{route=\"POST /projects\"}[5m])) by (le))"
+        }
+      ],
+      "thresholds": [
+        { "value": 0.5, "color": "green" },
+        { "value": 1.0, "color": "orange" },
+        { "value": 2.0, "color": "red" }
+      ]
+    },
+    {
+      "type": "timeSeries",
+      "title": "Error budget burn",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{status=~\"5..\",route=\"POST /projects\"}[5m])) / sum(rate(http_requests_total{route=\"POST /projects\"}[5m]))"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Config Drift Alerts",
+      "targets": [
+        {
+          "expr": "sum by (key) (config_drift_alerts_total)"
+        }
+      ]
+    }
+  ]
+}

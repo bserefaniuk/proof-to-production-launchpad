@@ -1,0 +1,158 @@
+openapi: 3.1.0
+info:
+  title: LaunchPad API
+  version: 0.2.0
+  description: |
+    Contract for the LaunchPad checklist service at the core-hardening milestone.
+servers:
+  - url: https://localhost:3000/api
+paths:
+  /projects:
+    get:
+      summary: List projects
+      operationId: listProjects
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+    post:
+      summary: Create a project
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProject'
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+  /projects/{projectId}/checklists:
+    post:
+      summary: Add a checklist to a project
+      operationId: addChecklist
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChecklist'
+      responses:
+        '201':
+          description: Checklist created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+  /projects/{projectId}/checklists/{checklistId}/tasks:
+    post:
+      summary: Create a task in a checklist
+      operationId: createTask
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ChecklistId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTask'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+components:
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    ChecklistId:
+      name: checklistId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        checklists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Checklist'
+    Checklist:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        status:
+          type: string
+          enum: [pending, in_progress, done]
+    CreateProject:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 280
+    CreateChecklist:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+    CreateTask:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 120
